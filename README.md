@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SMRTTECH 3CC3 Lab Manual Prototype
 
 This prototype converts the two uploaded PDF manuals into one redesigned **Lab 1: LabVIEW, Tinkercad and Arduino Sensor Interfaces** and places it within a small course website.
@@ -112,3 +113,7 @@ In `labs/lab-01/index.html`, search for `data-placeholder-link` and replace each
 - Answers and measurements use browser `localStorage`; they are not sent to a server.
 - The JavaScript is intentionally framework-free so it can be audited and hosted privately.
 - A future LMS integration should use an institution-approved method such as LTI rather than posting grades directly from client-side JavaScript.
+=======
+# cloudlab1proto
+first prototype for lab1 in sensor course
+>>>>>>> fe03aa9570efbce5cf6c58b3b0579d2d343f8ed1
