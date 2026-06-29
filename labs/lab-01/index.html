@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive Lab 1 manual for SMRTTECH 3CC3: LabVIEW, Tinkercad, Arduino, photoresistors, and voltage dividers.">
+  <title>Lab 1 | LabVIEW and Sensor Interfaces | SMRTTECH 3CC3</title>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <script src="../../assets/js/lab-01.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to lab content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../../index.html" aria-label="Return to SMRTTECH 3CC3 lab hub">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>SMRTTECH 3CC3 <small>Interactive Laboratory Manuals</small></span>
+      </a>
+      <nav class="top-links" aria-label="Course tools">
+        <a class="button button--secondary" href="../../index.html">All labs</a>
+        <a class="button button--secondary" href="../../knowledge/index.html">Knowledge repository</a>
+        <button class="button button--secondary" type="button" data-open-drawer>Quick reference</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-shell hero">
+    <div class="hero__grid">
+      <div>
+        <p class="eyebrow">Laboratory 1 · Foundations</p>
+        <h1>LabVIEW, Tinkercad and Arduino Sensor Interfaces</h1>
+        <p class="lead">
+          Build the same engineering idea three ways: first as a LabVIEW calculation, then as a simulated sensor circuit, and finally as a real photoresistor system that turns an LED on in low light.
+        </p>
+        <div class="chip-row" aria-label="Lab summary">
+          <span class="chip">Estimated time: 3–4 hours</span>
+          <span class="chip">Software: LabVIEW + Tinkercad</span>
+          <span class="chip">Hardware: trainer board + multimeter</span>
+          <span class="chip">Evidence: VI, quiz, tables, demonstrations</span>
+        </div>
+      </div>
+      <aside class="hero-card" aria-labelledby="labQuestionHeading">
+        <h2 id="labQuestionHeading">The guiding question</h2>
+        <p><strong>How can a physical change in light become a number, a decision, and an action?</strong></p>
+        <ul>
+          <li>Light changes resistance.</li>
+          <li>A voltage divider changes resistance into voltage.</li>
+          <li>An Arduino reads voltage as a number.</li>
+          <li>Code turns that number into an LED action.</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+
+  <nav class="stage-nav" aria-label="Lab stages">
+    <div class="stage-nav__inner" role="tablist" aria-label="Lab progress stages">
+      <span class="stage-nav__label">Lab progress</span>
+      <button id="tab-0" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="true" aria-controls="stage-0">Overview</button>
+      <button id="tab-1" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="false" aria-controls="stage-1">LabVIEW concepts</button>
+      <button id="tab-2" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="false" aria-controls="stage-2">Build the VI</button>
+      <button id="tab-3" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="false" aria-controls="stage-3">Photoresistor</button>
+      <button id="tab-4" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="false" aria-controls="stage-4">Voltage divider</button>
+      <button id="tab-5" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="false" aria-controls="stage-5">Arduino control</button>
+      <button id="tab-6" class="stage-tab" type="button" role="tab" data-stage-tab aria-selected="false" aria-controls="stage-6">Hardware & submit</button>
+      <span class="stage-progress" id="stageProgress" aria-live="polite">0/7 stages marked complete</span>
+    </div>
+  </nav>
+
+  <main id="mainContent" class="page-shell">
+    <p class="print-only"><strong>SMRTTECH 3CC3 – Laboratory 1: LabVIEW, Tinkercad and Arduino Sensor Interfaces</strong></p>
+
+    <section id="stage-0" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-0">
+      <article class="card card--accent">
+        <div class="card__header">
+          <div>
+            <p class="eyebrow">Stage 1 of 7</p>
+            <h2>Orient yourself before building</h2>
+          </div>
+          <button class="button button--secondary no-print" type="button" data-open-drawer>Open quick reference</button>
+        </div>
+        <p>
+          This redesigned lab combines the original LabVIEW introduction with the sensor-and-Arduino sequence. The stages follow a repeated reasoning cycle so that the instructions do not become a list of clicks without understanding.
+        </p>
+        <div class="pathway" aria-label="Learning cycle">
+          <div class="pathway__step"><strong>Predict</strong>Commit to what you expect.</div>
+          <div class="pathway__step"><strong>Build</strong>Create the VI, simulation, or circuit.</div>
+          <div class="pathway__step"><strong>Observe</strong>Collect a value or visible result.</div>
+          <div class="pathway__step"><strong>Explain</strong>Connect evidence to the concept.</div>
+          <div class="pathway__step"><strong>Verify</strong>Test, compare, and troubleshoot.</div>
+        </div>
+      </article>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Intended learning outcomes</h3>
+          <ol class="outcome-list">
+            <li><span class="outcome-code">ILO 1</span>Recognize the front panel, block diagram, controls, indicators, VIs, and SubVIs in LabVIEW.</li>
+            <li><span class="outcome-code">ILO 2</span>Distinguish common LabVIEW data types, arrays, clusters, while loops, for loops, and shift registers.</li>
+            <li><span class="outcome-code">ILO 3</span>Create a LabVIEW VI that continuously calculates voltage-divider output.</li>
+            <li><span class="outcome-code">ILO 4</span>Measure how photoresistor resistance changes with light.</li>
+            <li><span class="outcome-code">ILO 5</span>Use a voltage divider to convert resistance variation into voltage variation.</li>
+            <li><span class="outcome-code">ILO 6</span>Connect an Arduino analog input and digital LED output correctly.</li>
+            <li><span class="outcome-code">ILO 7</span>Write and explain threshold-based Arduino code for automatic lighting.</li>
+            <li><span class="outcome-code">ILO 8</span>Compare calculated and measured values and identify plausible sources of disagreement.</li>
+          </ol>
+        </article>
+
+        <article class="card">
+          <h3>Before you start</h3>
+          <div class="stack">
+            <label class="check-row"><input type="checkbox" data-persist="ready-linkedin"><span>I can access LinkedIn Learning with my McMaster credentials.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="ready-labview"><span>LabVIEW is installed and opens on my computer.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="ready-tinkercad"><span>I can access the course Tinkercad class.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="ready-avenue"><span>I can access Avenue to Learn and the Lab 1 quiz.</span></label>
+          </div>
+        </article>
+      </div>
+
+      <article class="card card--gold">
+        <h3>Access links</h3>
+        <div class="grid-2">
+          <a class="resource-link" href="https://uts.mcmaster.ca/services/teaching-and-learning/linkedin-learning/" target="_blank" rel="noopener">
+            <span class="resource-icon" aria-hidden="true">L</span><span><strong>LinkedIn Learning through UTS</strong><span class="resource-meta">Sign in with McMaster credentials</span></span><span aria-hidden="true">↗</span>
+          </a>
+          <a class="resource-link" href="https://www.linkedin.com/learning/learning-labview" target="_blank" rel="noopener">
+            <span class="resource-icon" aria-hidden="true">▶</span><span><strong>Learning LabVIEW course</strong><span class="resource-meta">Watch sections 1, 2, 3, and 4</span></span><span aria-hidden="true">↗</span>
+          </a>
+          <a class="resource-link" href="#" data-placeholder-link="The LabVIEW installation guide">
+            <span class="resource-icon" aria-hidden="true">↓</span><span><strong>LabVIEW installation guide</strong><span class="resource-meta">Instructor: insert Avenue resource link</span></span><span class="placeholder-badge">Configure</span>
+          </a>
+          <a class="resource-link" href="#" data-placeholder-link="The Tinkercad class link">
+            <span class="resource-icon" aria-hidden="true">T</span><span><strong>Join the Tinkercad class</strong><span class="resource-meta">Use your McMaster ID without @mcmaster.ca</span></span><span class="placeholder-badge">Configure</span>
+          </a>
+          <a class="resource-link" href="#" data-placeholder-link="The MacVideo tutorial">
+            <span class="resource-icon" aria-hidden="true">▶</span><span><strong>Tinkercad circuit tutorial video</strong><span class="resource-meta">3CC3 – Lab 2 – Exercise 1.mp4</span></span><span class="placeholder-badge">Configure</span>
+          </a>
+          <a class="resource-link" href="#" data-placeholder-link="The Avenue Lab 1 quiz">
+            <span class="resource-icon" aria-hidden="true">Q</span><span><strong>Lab 1 quiz on Avenue</strong><span class="resource-meta">Complete after the LabVIEW activity</span></span><span class="placeholder-badge">Configure</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="callout callout--warning">
+        <h3>What is saved?</h3>
+        <p>Your checkboxes, tables, predictions, and reflections are stored only in this browser using local storage. They are not submitted to Avenue or sent to a server. Use the print button at the end if you need a copy.</p>
+      </article>
+
+      <div class="stage-footer">
+        <span id="knowledgeCheckProgress" class="chip" aria-live="polite">0/6 formative checks completed</span>
+        <div class="cluster">
+          <button class="button button--secondary" type="button" data-complete-stage="0">Mark overview complete</button>
+          <button class="button button--primary" type="button" data-next-stage>Continue to LabVIEW concepts</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="stage-1" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-1" hidden>
+      <article class="card card--accent">
+        <div class="card__header">
+          <div><p class="eyebrow">Stage 2 of 7 · ILO 1–2</p><h2>Learn the LabVIEW language before copying a diagram</h2></div>
+          <span class="chip">Watch sections 1–4</span>
+        </div>
+        <p>As you watch the LinkedIn Learning course, pause after each section and answer the questions below. The goal is not to memorize interface names; it is to understand what role each object plays.</p>
+      </article>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Concept map</h3>
+          <div class="stack">
+            <details open><summary>Front panel and block diagram</summary><div><p>The <strong>front panel</strong> is the user interface. The <strong>block diagram</strong> contains dataflow logic and structures.</p><p><a href="../../knowledge/index.html#labview-interface">Open the repository article</a></p></div></details>
+            <details><summary>Controls and indicators</summary><div><p>A control supplies data to the VI; an indicator displays data produced by the VI.</p><p><a href="../../knowledge/index.html#controls-indicators">Open the repository article</a></p></div></details>
+            <details><summary>VI and SubVI</summary><div><p>A VI is a LabVIEW program. A VI can be packaged and reused inside another VI as a SubVI.</p><p><a href="../../knowledge/index.html#vi-subvi">Open the repository article</a></p></div></details>
+            <details><summary>Data types, arrays, and clusters</summary><div><p>Data type determines what a wire carries. Arrays hold repeated values of one type; clusters group related values, possibly of different types.</p><p><a href="../../knowledge/index.html#labview-data">Open the repository article</a></p></div></details>
+            <details><summary>While loops, for loops, and shift registers</summary><div><p>A while loop repeats until a condition is met. A for loop repeats a known number of times. A shift register carries a value from one loop iteration to the next.</p><p><a href="../../knowledge/index.html#labview-loops">Open the repository article</a></p></div></details>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Socratic notebook</h3>
+          <label>Why should <em>Vin</em>, <em>R1</em>, and <em>R2</em> be controls rather than indicators?
+            <textarea data-persist="reflection-controls" placeholder="Because the user needs to…"></textarea>
+          </label>
+          <label>When would a for loop be more appropriate than the required while loop?
+            <textarea data-persist="reflection-for-loop" placeholder="A for loop would make sense when…"></textarea>
+          </label>
+          <label>What information could a shift register remember in an improved version of this VI?
+            <textarea data-persist="reflection-shift-register" placeholder="It could remember…"></textarea>
+          </label>
+        </article>
+      </div>
+
+      <div class="grid-2">
+        <fieldset class="quiz-card" data-question="front-panel" data-correct="b" data-hint="Ask which part the user sees and operates." data-explanation="Correct. Controls and indicators appear on the front panel; their terminals and logic appear on the block diagram.">
+          <legend>Where should the user enter Vin, R1, and R2?</legend>
+          <label class="quiz-option"><input type="radio" name="front-panel" value="a">In a shift register on the block diagram</label>
+          <label class="quiz-option"><input type="radio" name="front-panel" value="b">In numeric controls on the front panel</label>
+          <label class="quiz-option"><input type="radio" name="front-panel" value="c">In an output indicator</label>
+          <button class="button button--primary" type="button" data-check-question>Check reasoning</button>
+          <div class="quiz-feedback" data-quiz-feedback hidden aria-live="polite"></div>
+        </fieldset>
+
+        <fieldset class="quiz-card" data-question="loop-choice" data-correct="a" data-hint="The VI must keep responding until the user chooses to stop." data-explanation="Correct. A while loop supports continuous recalculation and a user-controlled stop condition.">
+          <legend>Why does the required VI use a while loop?</legend>
+          <label class="quiz-option"><input type="radio" name="loop-choice" value="a">It should recalculate continuously until the user presses Stop.</label>
+          <label class="quiz-option"><input type="radio" name="loop-choice" value="b">It must always run exactly ten times.</label>
+          <label class="quiz-option"><input type="radio" name="loop-choice" value="c">A while loop automatically creates a SubVI.</label>
+          <button class="button button--primary" type="button" data-check-question>Check reasoning</button>
+          <div class="quiz-feedback" data-quiz-feedback hidden aria-live="polite"></div>
+        </fieldset>
+      </div>
+
+      <article class="callout callout--question">
+        <h3>Optional transfer challenge</h3>
+        <p>Imagine calculating Vout for five different R2 values. Which concepts would you combine? A strong answer should mention an <strong>array</strong>, a <strong>for loop</strong>, and an output array or graph. This is not an extra deliverable; it checks whether the course concepts transfer beyond the screenshot.</p>
+      </article>
+
+      <div class="stage-footer">
+        <button class="button button--secondary" type="button" data-previous-stage>Back</button>
+        <div class="cluster"><button class="button button--secondary" type="button" data-complete-stage="1">Mark concepts complete</button><button class="button button--primary" type="button" data-next-stage>Build the VI</button></div>
+      </div>
+    </section>
+
+    <section id="stage-2" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-2" hidden>
+      <article class="card card--accent">
+        <div class="card__header"><div><p class="eyebrow">Stage 3 of 7 · ILO 3</p><h2>Build a voltage-divider VI</h2></div><span class="chip">Deliverable: .vi file</span></div>
+        <p>Create a VI that calculates Vout from Vin, R1, and R2. Your front panel must include your student name and ID.</p>
+      </article>
+
+      <div class="grid-2">
+        <figure class="figure">
+          <img src="../../assets/images/labview-divider.png" alt="Voltage divider schematic with R1 from Vin to the output node and R2 from the output node to ground.">
+          <figcaption>Reference circuit: Vout is measured across R2.</figcaption>
+        </figure>
+        <div class="stack">
+          <div class="formula" aria-label="Voltage divider equation">Vout = Vin × R2 ÷ (R1 + R2)</div>
+          <article class="callout callout--question">
+            <h3>Predict before calculating</h3>
+            <label>If R2 increases while Vin and R1 stay fixed, what should happen to Vout?
+              <select data-persist="prediction-r2">
+                <option value="">Choose a prediction</option>
+                <option>Vout should increase</option>
+                <option>Vout should decrease</option>
+                <option>Vout should stay the same</option>
+              </select>
+            </label>
+            <label>Explain your prediction in one sentence.
+              <textarea data-persist="prediction-r2-explain" placeholder="R2 becomes a larger fraction of…"></textarea>
+            </label>
+          </article>
+        </div>
+      </div>
+
+      <article class="card">
+        <h3>Test the equation before opening LabVIEW</h3>
+        <div class="grid-3">
+          <label>Vin (V)<input id="calcVin" type="number" min="0" step="0.01" value="12" data-persist="calc-vin"></label>
+          <label>R1 (same units as R2)<input id="calcR1" type="number" min="0" step="0.01" value="1" data-persist="calc-r1"></label>
+          <label>R2 (same units as R1)<input id="calcR2" type="number" min="0" step="0.01" value="5" data-persist="calc-r2"></label>
+        </div>
+        <div class="callout callout--success" style="margin-top:1rem"><strong>Expected Vout:</strong> <span id="calcVout" aria-live="polite">10.000 V</span></div>
+      </article>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Build checklist</h3>
+          <div class="stack">
+            <label class="check-row"><input type="checkbox" data-persist="vi-front-panel"><span>Create numeric controls for Vin, R1, and R2 and a numeric indicator for Vout.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="vi-block-diagram"><span>Wire the arithmetic on the block diagram using dataflow.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="vi-while-loop"><span>Place the calculation inside a while loop.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="vi-stop"><span>Add a Stop control and wire it to the loop condition.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="vi-identity"><span>Add your student name and ID to the front panel.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="vi-decorations"><span>Use labels and decorations so the interface communicates the circuit clearly.</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="vi-test"><span>Test at least three sets of valid values, including 12 V, 1, and 5.</span></label>
+          </div>
+        </article>
+        <figure class="figure">
+          <img src="../../assets/images/labview-front-panel.png" alt="Example LabVIEW front panel showing numeric controls for Vin, R1, and R2, a Vout indicator, student identity fields, a ground label, and a Stop button.">
+          <figcaption>Example layout. Recreate the function, not merely the appearance.</figcaption>
+        </figure>
+      </div>
+
+      <article class="callout callout--warning">
+        <h3>Test a boundary case</h3>
+        <p>What should your VI do if R1 + R2 = 0? The original exercise does not specify error handling. At minimum, recognize that division by zero is invalid. A robust VI would prevent or clearly report the condition.</p>
+      </article>
+
+      <fieldset class="quiz-card" data-question="divider-value" data-correct="c" data-hint="Calculate 12 × 5 ÷ (1 + 5)." data-explanation="Correct. 12 × 5 ÷ 6 = 10 V, matching the example front panel.">
+        <legend>For Vin = 12 V, R1 = 1, and R2 = 5, what is Vout?</legend>
+        <label class="quiz-option"><input type="radio" name="divider-value" value="a">2 V</label>
+        <label class="quiz-option"><input type="radio" name="divider-value" value="b">6 V</label>
+        <label class="quiz-option"><input type="radio" name="divider-value" value="c">10 V</label>
+        <button class="button button--primary" type="button" data-check-question>Check reasoning</button>
+        <div class="quiz-feedback" data-quiz-feedback hidden aria-live="polite"></div>
+      </fieldset>
+
+      <div class="stage-footer">
+        <button class="button button--secondary" type="button" data-previous-stage>Back</button>
+        <div class="cluster"><button class="button button--secondary" type="button" data-complete-stage="2">Mark VI stage complete</button><button class="button button--primary" type="button" data-next-stage>Explore the photoresistor</button></div>
+      </div>
+    </section>
+
+    <section id="stage-3" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-3" hidden>
+      <article class="card card--accent">
+        <div class="card__header"><div><p class="eyebrow">Stage 4 of 7 · ILO 4</p><h2>Observe how light changes resistance</h2></div><span class="chip">Tinkercad Exercise 1</span></div>
+        <p>Join the Tinkercad class, choose <strong>Join with Nickname</strong>, and use your McMaster ID without “@mcmaster.ca”. Create a new Circuit.</p>
+      </article>
+
+      <div class="grid-2">
+        <article class="callout callout--question">
+          <h3>Predict</h3>
+          <label>As light on the photoresistor increases, its resistance will probably…
+            <select data-persist="prediction-pr">
+              <option value="">Choose a prediction</option>
+              <option>increase</option>
+              <option>decrease</option>
+              <option>stay constant</option>
+            </select>
+          </label>
+          <label>What physical observation would disprove your prediction?
+            <textarea data-persist="prediction-pr-disprove" placeholder="My prediction would be wrong if…"></textarea>
+          </label>
+        </article>
+        <figure class="figure">
+          <img src="../../assets/images/tinkercad-photoresistor.png" alt="Tinkercad breadboard with a photoresistor inserted across separate rows and a multimeter connected across the two photoresistor legs in resistance mode.">
+          <figcaption>Measure the component directly in resistance mode.</figcaption>
+        </figure>
+      </div>
+
+      <article class="card">
+        <h3>Build and measure</h3>
+        <ol class="outcome-list">
+          <li>Place the photoresistor so its left leg is in <strong>G8</strong> and right leg is in <strong>G9</strong>.</li>
+          <li>Connect the multimeter terminals to <strong>J8</strong> and <strong>J9</strong>.</li>
+          <li>Set the multimeter to <strong>Resistance</strong>.</li>
+          <li>Start the simulation and record the resistance at each light level.</li>
+        </ol>
+        <div class="callout callout--danger" style="margin-top:1rem">
+          <strong>Real-meter safety principle:</strong> resistance is normally measured on an unpowered circuit. Tinkercad protects you from many mistakes that a physical meter will not.
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Table 1 · Photoresistor resistance</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Light level</th><th>0%</th><th>25%</th><th>50%</th><th>75%</th><th>100%</th></tr></thead>
+            <tbody><tr><th scope="row">PR resistance (kΩ)</th><td><input type="number" min="0" step="0.01" data-persist="pr-0" aria-label="Photoresistor resistance at 0 percent light"></td><td><input type="number" min="0" step="0.01" data-persist="pr-25" aria-label="Photoresistor resistance at 25 percent light"></td><td><input type="number" min="0" step="0.01" data-persist="pr-50" aria-label="Photoresistor resistance at 50 percent light"></td><td><input type="number" min="0" step="0.01" data-persist="pr-75" aria-label="Photoresistor resistance at 75 percent light"></td><td><input type="number" min="0" step="0.01" data-persist="pr-100" aria-label="Photoresistor resistance at 100 percent light"></td></tr></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Explain the pattern</h3>
+        <label>Describe the relationship between light and resistance using evidence from two values in Table 1.
+          <textarea data-persist="explain-pr-pattern" placeholder="When light changed from… the resistance changed from… This suggests…"></textarea>
+        </label>
+      </article>
+
+      <fieldset class="quiz-card" data-question="meter-resistance" data-correct="b" data-hint="Think about what the meter injects or senses when measuring resistance." data-explanation="Correct. For a physical circuit, remove power before measuring resistance to avoid false readings or damage.">
+        <legend>Before measuring resistance on the real trainer board, what should you do?</legend>
+        <label class="quiz-option"><input type="radio" name="meter-resistance" value="a">Increase the supply to 10 V.</label>
+        <label class="quiz-option"><input type="radio" name="meter-resistance" value="b">Turn off and disconnect circuit power.</label>
+        <label class="quiz-option"><input type="radio" name="meter-resistance" value="c">Move the red lead to the current socket.</label>
+        <button class="button button--primary" type="button" data-check-question>Check reasoning</button>
+        <div class="quiz-feedback" data-quiz-feedback hidden aria-live="polite"></div>
+      </fieldset>
+
+      <div class="stage-footer"><button class="button button--secondary" type="button" data-previous-stage>Back</button><div class="cluster"><button class="button button--secondary" type="button" data-complete-stage="3">Mark photoresistor stage complete</button><button class="button button--primary" type="button" data-next-stage>Convert resistance to voltage</button></div></div>
+    </section>
+
+    <section id="stage-4" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-4" hidden>
+      <article class="card card--accent">
+        <div class="card__header"><div><p class="eyebrow">Stage 5 of 7 · ILO 5</p><h2>Use a voltage divider as a sensor interface</h2></div><span class="chip">Tinkercad Exercise 2</span></div>
+        <p>The Arduino cannot measure resistance directly at A0. The voltage divider converts the photoresistor’s resistance change into a voltage that the analog input can read.</p>
+      </article>
+
+      <div class="grid-2">
+        <figure class="figure">
+          <img src="../../assets/images/tinkercad-divider.png" alt="Tinkercad circuit with Arduino 5 V and ground connected to breadboard rails, a photoresistor and 4.7 kilo-ohm resistor forming a voltage divider, and a multimeter measuring the junction voltage.">
+          <figcaption>The photoresistor is the upper resistance; the 4.7 kΩ resistor is connected from the output node to ground.</figcaption>
+        </figure>
+        <article class="callout callout--question">
+          <h3>Predict from the circuit orientation</h3>
+          <p>In this circuit, the 4.7 kΩ resistor is R2. If brighter light makes the photoresistor resistance smaller, what should happen to Vout?</p>
+          <label>Your prediction
+            <select data-persist="prediction-vout-light">
+              <option value="">Choose a prediction</option>
+              <option>Vout should increase</option>
+              <option>Vout should decrease</option>
+              <option>Vout should stay constant</option>
+            </select>
+          </label>
+          <label>Use the equation to justify your answer.
+            <textarea data-persist="prediction-vout-explain" placeholder="Because the photoresistor is R1…"></textarea>
+          </label>
+        </article>
+      </div>
+
+      <article class="card">
+        <h3>Text-only wiring map</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Connection</th><th>From</th><th>To</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td>Fixed resistor</td><td>G3</td><td>G7</td><td>4.7 kΩ lower leg of divider</td></tr>
+              <tr><td>Ground connection</td><td>J3</td><td>Negative rail</td><td>Connects R2 to ground</td></tr>
+              <tr><td>Positive connection</td><td>J9</td><td>Positive rail</td><td>Connects photoresistor to 5 V</td></tr>
+              <tr><td>Power rails</td><td>Arduino GND and 5 V</td><td>Negative and positive rails</td><td>Powers the divider</td></tr>
+              <tr><td>Voltage measurement</td><td>Black lead: negative rail</td><td>Red lead: J7</td><td>Measures Vout relative to ground</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Table 2 · Simulated sensor voltage</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Light level</th><th>0%</th><th>25%</th><th>50%</th><th>75%</th><th>100%</th></tr></thead>
+            <tbody><tr><th scope="row">Voltage (V)</th><td><input type="number" min="0" max="5" step="0.001" data-persist="v-0" aria-label="Voltage at 0 percent light"></td><td><input type="number" min="0" max="5" step="0.001" data-persist="v-25" aria-label="Voltage at 25 percent light"></td><td><input type="number" min="0" max="5" step="0.001" data-persist="v-50" aria-label="Voltage at 50 percent light"></td><td><input type="number" min="0" max="5" step="0.001" data-persist="v-75" aria-label="Voltage at 75 percent light"></td><td><input type="number" min="0" max="5" step="0.001" data-persist="v-100" aria-label="Voltage at 100 percent light"></td></tr></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Observe, explain, verify</h3>
+        <div class="socratic-grid">
+          <div class="socratic-card"><strong>Observe</strong>Which light interval produced the largest voltage change?</div>
+          <div class="socratic-card"><strong>Explain</strong>Is the sensor response linear across all five points?</div>
+          <div class="socratic-card"><strong>Verify</strong>Use one resistance value from Table 1 to estimate Vout.</div>
+          <div class="socratic-card"><strong>Troubleshoot</strong>If the meter reads 0 V at every light level, what three connections would you inspect first?</div>
+        </div>
+        <label style="display:block;margin-top:1rem">Your explanation
+          <textarea data-persist="divider-pattern-explanation" placeholder="The voltage trend was… The relationship appears…"></textarea>
+        </label>
+      </article>
+
+      <fieldset class="quiz-card" data-question="analog-vs-digital" data-correct="a" data-hint="A0 must represent many possible sensor levels, not only ON and OFF." data-explanation="Correct. An analog input represents a range of voltages; a digital output commands discrete LOW or HIGH states.">
+        <legend>Why is the sensor connected to A0 while the LED is later connected to digital pin 7?</legend>
+        <label class="quiz-option"><input type="radio" name="analog-vs-digital" value="a">The sensor produces a range of voltage values, while the LED is commanded ON or OFF.</label>
+        <label class="quiz-option"><input type="radio" name="analog-vs-digital" value="b">A0 provides more electrical power than pin 7.</label>
+        <label class="quiz-option"><input type="radio" name="analog-vs-digital" value="c">Digital pins cannot connect to resistors.</label>
+        <button class="button button--primary" type="button" data-check-question>Check reasoning</button>
+        <div class="quiz-feedback" data-quiz-feedback hidden aria-live="polite"></div>
+      </fieldset>
+
+      <div class="stage-footer"><button class="button button--secondary" type="button" data-previous-stage>Back</button><div class="cluster"><button class="button button--secondary" type="button" data-complete-stage="4">Mark divider stage complete</button><button class="button button--primary" type="button" data-next-stage>Connect and program Arduino</button></div></div>
+    </section>
+
+    <section id="stage-5" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-5" hidden>
+      <article class="card card--accent">
+        <div class="card__header"><div><p class="eyebrow">Stage 6 of 7 · ILO 6–7</p><h2>Turn a sensor reading into an LED decision</h2></div><span class="chip">Tinkercad Exercises 3–4</span></div>
+        <p>Connect the voltage-divider output to A0, add an LED to digital pin 7, and use a threshold to decide whether the LED should be HIGH or LOW.</p>
+      </article>
+
+      <div class="grid-2">
+        <figure class="figure">
+          <img src="../../assets/images/tinkercad-arduino-led.png" alt="Tinkercad Arduino Uno connected to a photoresistor voltage divider at analog input A0 and an LED with a 220 ohm current-limiting resistor connected to digital output pin 7 and ground.">
+          <figcaption>Sensor input at A0; LED output at D7 through a 220 Ω resistor.</figcaption>
+        </figure>
+        <article class="card">
+          <h3>Text-only wiring map</h3>
+          <ol class="outcome-list">
+            <li>Delete the multimeter.</li>
+            <li>Connect <strong>J7</strong> to Arduino <strong>A0</strong>.</li>
+            <li>Place the LED at <strong>G19</strong> and <strong>G20</strong>.</li>
+            <li>Place a <strong>220 Ω</strong> resistor from <strong>G14</strong> to <strong>G18</strong>.</li>
+            <li>Connect <strong>F18</strong> to <strong>F19</strong>.</li>
+            <li>Connect <strong>J14</strong> to <strong>GND</strong>.</li>
+            <li>Connect <strong>J20</strong> to digital pin <strong>7</strong>.</li>
+          </ol>
+          <div class="callout callout--warning" style="margin-top:1rem"><strong>Check LED polarity.</strong> The current-limiting resistor protects the LED; reversing the LED may prevent it from lighting.</div>
+        </article>
+      </div>
+
+      <div class="grid-2">
+        <div class="code-block">
+          <div class="code-block__header">Arduino C++ sketch</div>
+<pre><code>int PRPin = 0;
+int PR = 0;
+int LEDPin = 7;
+int lowLightLim = 400;
+
+void setup()
+{
+  pinMode(LEDPin, OUTPUT);
+}
+
+void loop()
+{
+  PR = analogRead(PRPin);
+  if (PR &lt; lowLightLim) {
+    digitalWrite(LEDPin, HIGH);
+  }
+  else {
+    digitalWrite(LEDPin, LOW);
+  }
+}</code></pre>
+        </div>
+        <article class="card">
+          <h3>Read the code as an argument</h3>
+          <ol class="outcome-list">
+            <li><strong>Claim:</strong> pin 7 will control an output.</li>
+            <li><strong>Evidence:</strong> A0 is sampled with <code>analogRead()</code>.</li>
+            <li><strong>Rule:</strong> if the value is below 400, write HIGH; otherwise write LOW.</li>
+            <li><strong>Repetition:</strong> <code>loop()</code> repeats the sensing and decision continuously.</li>
+          </ol>
+          <p><a href="../../knowledge/index.html#arduino-code">Open the Arduino code repository article</a></p>
+        </article>
+      </div>
+
+      <article class="card">
+        <h3>Threshold simulator</h3>
+        <p>Move the sensor reading and threshold. Then explain why the LED state changes.</p>
+        <div class="grid-2">
+          <label>Simulated analog reading: <strong id="sensorReadingValue">350</strong>
+            <input id="sensorReading" type="range" min="0" max="1023" value="350" data-persist="sensor-reading">
+          </label>
+          <label>Low-light threshold: <strong id="thresholdReadingValue">400</strong>
+            <input id="thresholdReading" type="range" min="0" max="1023" value="400" data-persist="threshold-reading">
+          </label>
+        </div>
+        <p><strong>Simulated LED:</strong> <span id="simulatedLedState" class="chip" aria-live="polite">ON (HIGH)</span></p>
+        <label>Why does the original program use “less than 400” for low light in this circuit?
+          <textarea data-persist="threshold-explanation" placeholder="In this divider orientation, low light produces…"></textarea>
+        </label>
+      </article>
+
+      <fieldset class="quiz-card" data-question="threshold-logic" data-correct="b" data-hint="Substitute PR = 350 into the if condition PR &lt; 400." data-explanation="Correct. 350 is below 400, so the program writes HIGH to the LED pin.">
+        <legend>If PR = 350 and lowLightLim = 400, what command runs?</legend>
+        <label class="quiz-option"><input type="radio" name="threshold-logic" value="a"><code>digitalWrite(LEDPin, LOW)</code></label>
+        <label class="quiz-option"><input type="radio" name="threshold-logic" value="b"><code>digitalWrite(LEDPin, HIGH)</code></label>
+        <label class="quiz-option"><input type="radio" name="threshold-logic" value="c"><code>pinMode(PRPin, OUTPUT)</code></label>
+        <button class="button button--primary" type="button" data-check-question>Check reasoning</button>
+        <div class="quiz-feedback" data-quiz-feedback hidden aria-live="polite"></div>
+      </fieldset>
+
+      <article class="callout callout--question">
+        <h3>Verify and troubleshoot</h3>
+        <p>Run the simulation. Change the light level around the switching point. If the LED does not respond, inspect in this order: sensor value in the code, A0 connection, common ground, LED polarity, 220 Ω resistor path, pin 7 connection, and the comparison operator.</p>
+        <label class="check-row"><input type="checkbox" data-persist="arduino-demo"><span>I demonstrated that the LED changes state as the light crosses the threshold.</span></label>
+      </article>
+
+      <div class="stage-footer"><button class="button button--secondary" type="button" data-previous-stage>Back</button><div class="cluster"><button class="button button--secondary" type="button" data-complete-stage="5">Mark Arduino stage complete</button><button class="button button--primary" type="button" data-next-stage>Verify with real hardware</button></div></div>
+    </section>
+
+    <section id="stage-6" class="stage-panel stack" role="tabpanel" data-stage-panel aria-labelledby="tab-6" hidden>
+      <article class="card card--accent">
+        <div class="card__header"><div><p class="eyebrow">Stage 7 of 7 · ILO 8</p><h2>Build the real circuit, compare evidence, and submit</h2></div><span class="chip">Trainer board Exercise 5</span></div>
+        <p>Use the trainer board’s internal 5 V supply, a photoresistor, a 4.7 kΩ resistor, and a multimeter. This stage tests whether the simulated model survives contact with real components and measurements.</p>
+      </article>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Equipment</h3>
+          <div class="stack">
+            <label class="check-row"><input type="checkbox" data-persist="equipment-trainer"><span>Trainer board with internal power supply</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="equipment-pr"><span>Photoresistor</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="equipment-resistor"><span>4.7 kΩ, 0.25 W resistor</span></label>
+            <label class="check-row"><input type="checkbox" data-persist="equipment-meter"><span>Multimeter and correct leads</span></label>
+          </div>
+        </article>
+        <article class="callout callout--danger">
+          <h3>Bench sequence</h3>
+          <ol class="outcome-list">
+            <li>Turn power <strong>off</strong> before changing wiring.</li>
+            <li>Measure resistance only with circuit power removed.</li>
+            <li>For voltage measurement, restore the 5 V supply and place the meter in parallel with Vout.</li>
+            <li>Confirm a common ground before interpreting a voltage reading.</li>
+          </ol>
+        </article>
+      </div>
+
+      <article class="card">
+        <h3>Table 3 · Total series resistance</h3>
+        <p>Cover the sensor for dark, use ambient room light for normal, and use a phone flashlight for the bright condition. Record total resistance in kΩ.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Condition</th><th>Dark</th><th>Normal</th><th>Flashlight</th></tr></thead>
+            <tbody><tr><th scope="row">Total resistance (kΩ)</th><td><input id="total-dark" type="number" min="4.7" step="0.01" data-persist="total-dark" aria-label="Total resistance in dark condition"></td><td><input id="total-normal" type="number" min="4.7" step="0.01" data-persist="total-normal" aria-label="Total resistance in normal light"></td><td><input id="total-flashlight" type="number" min="4.7" step="0.01" data-persist="total-flashlight" aria-label="Total resistance under flashlight"></td></tr></tbody>
+          </table>
+        </div>
+        <p class="help-text">For the shown orientation, calculated Vout = 5 V × 4.7 kΩ ÷ total resistance.</p>
+      </article>
+
+      <article class="card">
+        <h3>Table 4 · Calculated and measured sensor voltage</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Condition</th><th>Dark</th><th>Normal</th><th>Flashlight</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Calculated voltage (V)</th><td><input id="calculated-dark" readonly aria-label="Calculated voltage in dark condition"></td><td><input id="calculated-normal" readonly aria-label="Calculated voltage in normal light"></td><td><input id="calculated-flashlight" readonly aria-label="Calculated voltage under flashlight"></td></tr>
+              <tr><th scope="row">Measured voltage (V)</th><td><input id="measured-dark" type="number" min="0" max="5" step="0.001" data-persist="measured-dark" aria-label="Measured voltage in dark condition"></td><td><input id="measured-normal" type="number" min="0" max="5" step="0.001" data-persist="measured-normal" aria-label="Measured voltage in normal light"></td><td><input id="measured-flashlight" type="number" min="0" max="5" step="0.001" data-persist="measured-flashlight" aria-label="Measured voltage under flashlight"></td></tr>
+              <tr><th scope="row">Percent difference</th><td id="difference-dark">—</td><td id="difference-normal">—</td><td id="difference-flashlight">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Make sense of disagreement</h3>
+        <label>Which condition had the largest difference between calculated and measured voltage, and what is one plausible reason?
+          <textarea data-persist="measurement-disagreement" placeholder="The largest difference occurred… A plausible cause is…"></textarea>
+        </label>
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="socratic-card"><strong>Component tolerance</strong>The “4.7 kΩ” resistor may not be exactly 4.700 kΩ.</div>
+          <div class="socratic-card"><strong>Light variability</strong>Ambient light and flashlight distance are not perfectly controlled.</div>
+          <div class="socratic-card"><strong>Measurement setup</strong>Lead placement, contact resistance, or an incorrect meter mode can alter the result.</div>
+        </div>
+      </article>
+
+      <article class="card card--gold">
+        <h3>Submission and demonstration checklist</h3>
+        <div class="stack">
+          <label class="check-row"><input type="checkbox" data-persist="submit-vi"><span>Submit the LabVIEW VI. The front panel contains student name and ID.</span></label>
+          <label class="check-row"><input type="checkbox" data-persist="submit-quiz"><span>Complete the Lab 1 quiz on Avenue to Learn.</span></label>
+          <label class="check-row"><input type="checkbox" data-persist="submit-tables"><span>Show Tables 1–4 to the lab instructor.</span></label>
+          <label class="check-row"><input type="checkbox" data-persist="submit-demo4"><span>Demonstrate the simulated automatic lighting circuit.</span></label>
+          <label class="check-row"><input type="checkbox" data-persist="submit-demo5"><span>Demonstrate the real photoresistor voltage-divider circuit.</span></label>
+        </div>
+      </article>
+
+      <article class="callout callout--success">
+        <h3>Final reflection</h3>
+        <label>Complete the causal chain in your own words: light → resistance → voltage → digital number → code decision → LED state.
+          <textarea data-persist="final-reflection" placeholder="When light changes…"></textarea>
+        </label>
+      </article>
+
+      <div class="stage-footer">
+        <button class="button button--secondary" type="button" data-previous-stage>Back</button>
+        <div class="cluster">
+          <button class="button button--secondary" type="button" data-print>Print or save as PDF</button>
+          <button class="button button--secondary" type="button" data-reset-lab>Clear saved work</button>
+          <button class="button button--primary" type="button" data-complete-stage="6">Mark lab complete</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="knowledgeDrawer" class="drawer" aria-hidden="true" aria-label="Quick knowledge reference">
+    <div class="drawer__header">
+      <div><p class="eyebrow">Quick reference</p><h2>Knowledge repository</h2></div>
+      <button class="button button--secondary" type="button" data-close-drawer aria-label="Close quick reference">Close</button>
+    </div>
+    <p>Open a concept without losing your place in the lab.</p>
+    <div class="stack">
+      <a class="resource-link" href="../../knowledge/index.html#labview-interface"><span class="resource-icon">LV</span><span><strong>LabVIEW interface</strong><span class="resource-meta">Front panel and block diagram</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#labview-loops"><span class="resource-icon">↻</span><span><strong>Loops and shift registers</strong><span class="resource-meta">When to use each structure</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#voltage-divider"><span class="resource-icon">V</span><span><strong>Voltage divider</strong><span class="resource-meta">Equation, orientation, examples</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#photoresistor"><span class="resource-icon">☼</span><span><strong>Photoresistor</strong><span class="resource-meta">Light-resistance behaviour</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#multimeter"><span class="resource-icon">M</span><span><strong>Using a multimeter</strong><span class="resource-meta">Resistance and voltage modes</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#breadboard"><span class="resource-icon">B</span><span><strong>Breadboard and trainer board</strong><span class="resource-meta">Rows, rails, and common ground</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#analog-digital"><span class="resource-icon">A/D</span><span><strong>Analog versus digital</strong><span class="resource-meta">Inputs, outputs, and ADC</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#arduino-code"><span class="resource-icon">C++</span><span><strong>Arduino code</strong><span class="resource-meta">setup, loop, if/else, I/O functions</span></span><span>→</span></a>
+      <a class="resource-link" href="../../knowledge/index.html#troubleshooting"><span class="resource-icon">?</span><span><strong>Circuit troubleshooting</strong><span class="resource-meta">A safe, repeatable sequence</span></span><span>→</span></a>
+    </div>
+    <hr style="border:0;border-top:1px solid var(--line);margin:1.2rem 0">
+    <h3>Reading tools</h3>
+    <div class="cluster">
+      <button class="button button--secondary" type="button" data-text-size="default">Standard text</button>
+      <button class="button button--secondary" type="button" data-text-size="large">Large text</button>
+      <button class="button button--secondary" type="button" data-text-size="extra">Extra large</button>
+    </div>
+  </aside>
+  <div id="drawerBackdrop" class="drawer-backdrop" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      Prototype lab manual for SMRTTECH 3CC3. Student entries remain in the local browser unless the school later connects the page to an approved learning system.
+    </div>
+  </footer>
+</body>
+</html>

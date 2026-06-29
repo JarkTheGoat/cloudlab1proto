@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Repository | SMRTTECH 3CC3</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to repository content</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span>SMRTTECH 3CC3 <small>Knowledge Repository</small></span></a>
+      <nav class="top-links" aria-label="Repository navigation">
+        <a class="button button--secondary" href="../index.html">All labs</a>
+        <a class="button button--primary" href="../labs/lab-01/index.html">Open Lab 1</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-shell hero">
+    <p class="eyebrow">Reusable just-in-time support</p>
+    <h1>Knowledge Repository</h1>
+    <p class="lead">Short, reusable explanations linked from every lab manual. Each article answers one practical question, includes a check or example, and can later be expanded without rewriting the lab itself.</p>
+  </div>
+
+  <main id="mainContent" class="page-shell knowledge-layout">
+    <nav class="card knowledge-nav" aria-label="Knowledge topics">
+      <h2 style="font-size:1.2rem">Topics</h2>
+      <a href="#labview-interface">LabVIEW interface</a>
+      <a href="#controls-indicators">Controls and indicators</a>
+      <a href="#vi-subvi">VI and SubVI</a>
+      <a href="#labview-data">Data types, arrays, clusters</a>
+      <a href="#labview-loops">Loops and shift registers</a>
+      <a href="#voltage-divider">Voltage divider</a>
+      <a href="#photoresistor">Photoresistor</a>
+      <a href="#multimeter">Multimeter</a>
+      <a href="#breadboard">Breadboard and trainer board</a>
+      <a href="#resistors-led">Resistors and LED polarity</a>
+      <a href="#analog-digital">Analog and digital I/O</a>
+      <a href="#arduino-code">Arduino C++ basics</a>
+      <a href="#tinkercad">Tinkercad circuits</a>
+      <a href="#measurement">Theory versus measurement</a>
+      <a href="#troubleshooting">Troubleshooting sequence</a>
+    </nav>
+
+    <div class="stack">
+      <article id="labview-interface" class="card knowledge-topic">
+        <span class="tag">LabVIEW</span>
+        <h2>Front panel and block diagram</h2>
+        <p><strong>Question:</strong> Where does a LabVIEW program’s interface end and its logic begin?</p>
+        <p>The front panel is the user-facing interface containing controls and indicators. The block diagram contains terminals, wires, functions, structures, and dataflow. A useful diagnostic question is: “Is this element something the user manipulates or something the program executes?”</p>
+      </article>
+
+      <article id="controls-indicators" class="card knowledge-topic">
+        <span class="tag">LabVIEW</span>
+        <h2>Controls and indicators</h2>
+        <p>A <strong>control</strong> is an input to the VI. An <strong>indicator</strong> displays an output. For the voltage-divider VI, Vin, R1, and R2 are controls; Vout is an indicator.</p>
+        <div class="callout callout--question"><strong>Check:</strong> Is a Stop button a control or indicator? It is a Boolean control because it supplies a value to the loop condition.</div>
+      </article>
+
+      <article id="vi-subvi" class="card knowledge-topic">
+        <span class="tag">LabVIEW</span>
+        <h2>VI and SubVI</h2>
+        <p>A VI is a LabVIEW program. When a VI has a connector pane and is placed inside another block diagram, it functions as a SubVI. A future version of the lab could package the voltage-divider calculation as a reusable SubVI.</p>
+      </article>
+
+      <article id="labview-data" class="card knowledge-topic">
+        <span class="tag">LabVIEW</span>
+        <h2>Data types, arrays, and clusters</h2>
+        <p>Numeric wires carry numbers, Boolean wires carry true/false values, and strings carry text. An <strong>array</strong> stores multiple values of the same type. A <strong>cluster</strong> groups related values and may combine different types.</p>
+        <p>Example: five measured voltages naturally form an array; a cluster could combine a student ID, the five voltages, and a completion Boolean.</p>
+      </article>
+
+      <article id="labview-loops" class="card knowledge-topic">
+        <span class="tag">LabVIEW</span>
+        <h2>While loops, for loops, and shift registers</h2>
+        <ul>
+          <li><strong>While loop:</strong> repeat until a stop condition is met.</li>
+          <li><strong>For loop:</strong> repeat a known number of times.</li>
+          <li><strong>Shift register:</strong> carry a value from one iteration to the next.</li>
+        </ul>
+        <p>The required VI uses a while loop because it should continue recalculating until the user presses Stop.</p>
+      </article>
+
+      <article id="voltage-divider" class="card knowledge-topic">
+        <span class="tag">Electronics</span>
+        <h2>Voltage divider</h2>
+        <div class="formula">Vout = Vin × R2 ÷ (R1 + R2)</div>
+        <p>R1 is between Vin and the output node. R2 is between the output node and ground. The formula is only meaningful when the circuit orientation and the definition of Vout are clear.</p>
+        <div class="callout callout--warning"><strong>Common error:</strong> swapping R1 and R2 reverses the predicted trend.</div>
+      </article>
+
+      <article id="photoresistor" class="card knowledge-topic">
+        <span class="tag">Sensor</span>
+        <h2>Photoresistor</h2>
+        <p>A photoresistor, or light-dependent resistor, changes resistance with illumination. In the device used in this lab, resistance is expected to be higher in darkness and lower in brighter light. It is a passive resistive sensor, so a voltage divider is used to turn its change into a measurable voltage.</p>
+      </article>
+
+      <article id="multimeter" class="card knowledge-topic">
+        <span class="tag">Measurement</span>
+        <h2>Using a multimeter</h2>
+        <div class="grid-2">
+          <div><h3>Resistance mode</h3><p>Power the circuit off and isolate the component or network when practical. Place the meter across the resistance being measured.</p></div>
+          <div><h3>Voltage mode</h3><p>Power the circuit on. Place the meter in parallel between the measurement node and reference ground.</p></div>
+        </div>
+        <p>Confirm lead sockets and mode before touching the circuit. Current mode is not used in this lab.</p>
+      </article>
+
+      <article id="breadboard" class="card knowledge-topic">
+        <span class="tag">Hardware</span>
+        <h2>Breadboard and trainer board</h2>
+        <p>Rows of five holes are usually internally connected. The centre gap separates the two halves. Power rails run along the edges but may be split on some boards. A trainer board adds a controlled power supply and other built-in resources.</p>
+        <p><strong>Always verify continuity and rail segmentation rather than assuming the board matches a picture.</strong></p>
+      </article>
+
+      <article id="resistors-led" class="card knowledge-topic">
+        <span class="tag">Hardware</span>
+        <h2>Resistor values, LED polarity, and current limiting</h2>
+        <p>The divider uses 4.7 kΩ. The LED path uses 220 Ω to limit current. An LED is polarized: the anode and cathode must be oriented correctly. A reversed LED usually remains off; an LED without suitable current limiting may be damaged.</p>
+      </article>
+
+      <article id="analog-digital" class="card knowledge-topic">
+        <span class="tag">Arduino</span>
+        <h2>Analog input versus digital output</h2>
+        <p>An analog input converts a voltage range into a numerical reading. On the Arduino Uno used in this activity, <code>analogRead()</code> typically returns an integer from 0 to 1023. A digital output is commanded as LOW or HIGH.</p>
+        <p>A0 therefore receives the sensor’s varying voltage, while D7 commands the LED’s two-state action.</p>
+      </article>
+
+      <article id="arduino-code" class="card knowledge-topic">
+        <span class="tag">Arduino</span>
+        <h2>Arduino C++ basics for this lab</h2>
+        <ul>
+          <li><code>setup()</code> runs once after startup or reset.</li>
+          <li><code>loop()</code> repeats continuously.</li>
+          <li><code>pinMode(pin, OUTPUT)</code> configures a digital output.</li>
+          <li><code>analogRead(A0)</code> reads the sensor voltage as a number.</li>
+          <li><code>digitalWrite(pin, HIGH/LOW)</code> commands the output.</li>
+          <li><code>if/else</code> selects one action based on a Boolean condition.</li>
+        </ul>
+      </article>
+
+      <article id="tinkercad" class="card knowledge-topic">
+        <span class="tag">Simulation</span>
+        <h2>Tinkercad Circuits</h2>
+        <p>Tinkercad allows a circuit to be assembled, simulated, measured, and programmed before using physical hardware. Simulation is a model, not proof that a real circuit will work. Use it to test reasoning and discover wiring errors, then verify on the bench.</p>
+      </article>
+
+      <article id="measurement" class="card knowledge-topic">
+        <span class="tag">Engineering practice</span>
+        <h2>Calculated versus measured values</h2>
+        <p>A theoretical value assumes ideal components and controlled conditions. A measured value includes resistor tolerance, sensor variability, supply variation, meter accuracy, contact resistance, and changing illumination. Difference is evidence to interpret, not automatically a mistake.</p>
+        <div class="formula">percent difference = |measured − calculated| ÷ |calculated| × 100%</div>
+      </article>
+
+      <article id="troubleshooting" class="card knowledge-topic">
+        <span class="tag">Engineering practice</span>
+        <h2>A repeatable troubleshooting sequence</h2>
+        <ol>
+          <li>State the expected behaviour and the observed behaviour.</li>
+          <li>Remove power before changing wiring.</li>
+          <li>Inspect supply voltage and common ground.</li>
+          <li>Trace one signal path from source to output.</li>
+          <li>Measure at intermediate nodes.</li>
+          <li>Change one thing at a time.</li>
+          <li>Retest and record what changed.</li>
+        </ol>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner">Repository prototype: topics are intentionally independent of a single lab so they can be reused across the course.</div></footer>
+</body>
+</html>
